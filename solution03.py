@@ -11,11 +11,8 @@ for l in lines:
   common_element = set(second_half).intersection(first_half).pop()
   shared_elements.append(common_element)
   
-letter_to_value_dict = {}
-value = 1
-for letter in string.ascii_lowercase + string.ascii_uppercase:
-  letter_to_value_dict[letter] = value
-  value += 1
+all_letters = string.ascii_lowercase + string.ascii_uppercase
+letter_to_value_dict = dict(zip(all_letters,list(range(1, 53))))
 
 total_value = 0  
 for element in shared_elements: 
