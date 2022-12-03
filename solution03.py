@@ -1,3 +1,5 @@
+import string
+
 with open('input03.txt') as f: 
   lines = [l.rstrip("\n") for l in f]
 
@@ -9,8 +11,6 @@ for l in lines:
   common_element = set(second_half).intersection(first_half).pop()
   shared_elements.append(common_element)
   
-import string
-
 letter_to_value_dict = {}
 value = 1
 for letter in string.ascii_lowercase + string.ascii_uppercase:
