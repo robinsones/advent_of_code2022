@@ -13,10 +13,7 @@ for l in lines:
   
 all_letters = string.ascii_lowercase + string.ascii_uppercase
 
-total_value = 0  
-for element in shared_elements: 
-  amount = all_letters.index(element)
-  total_value += amount
+sum([all_letters.index(e) +1 for e in shared_elements])
 
 ## Problem 2 
 
@@ -24,7 +21,7 @@ value_sum = 0
 for i in range(0, len(lines), 3):
   common_element1 = set(lines[i]).intersection(lines[i+1])
   badge = set(lines[i+2]).intersection(common_element1).pop()
-  group_val = all_letters.index(badge)
+  group_val = all_letters.index(badge) + 1
   value_sum += group_val
 
   
