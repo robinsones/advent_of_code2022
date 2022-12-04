@@ -3,14 +3,10 @@ import re
 with open('input04.txt') as f: 
   lines = [l.rstrip("\n") for l in f]
 
-#1000 lines
-lines[0] is one string separated by a comma 
-
 overlapping_pairs = 0
 for l in lines: 
   nbs = re.split(',|-', l)
   nbs = [int(nb) for nb in nbs]
-  # is min number of one and max number of one smaller than max
   if nbs[0] >= nbs[2] and nbs[1] <= nbs[3]:
     overlapping_pairs += 1
   elif nbs[2] >= nbs[0] and nbs[3] <= nbs[1]:
