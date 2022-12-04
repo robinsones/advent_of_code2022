@@ -19,7 +19,6 @@ for l in lines:
   nbs = [int(nb) for nb in nbs]
   r1 = range(nbs[0], nbs[1] + 1)
   r2 = range(nbs[2], nbs[3] + 1)
-  # is min number of one and max number of one smaller than max
   if len(set(r1).intersection(set(r2))):
     any_overlap += 1
 
