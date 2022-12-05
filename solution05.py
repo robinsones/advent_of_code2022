@@ -5,20 +5,17 @@ with open('input05.txt') as f:
   lines = [l.rstrip("\n") for l in f]
 
 movements = [l for l in lines if l.startswith('move')]
+nb_movements = [[int(s) for s in re.findall(r'\d+', l)] for l in movements]
 
 crates = [l for l in lines if '[' in l]
-# need to change so get by entry instead 
-# 1, 5, 9 
-
 stacked_crates = [[] for i in range(9)]
+
 for row in list(reversed(crates)): 
   for i, v in enumerate(range(1, len(row), 4)):
-    stacked_crates[i].append(row[v])
+    if row[v] != ' ':
+      stacked_crates[i].append(row[v])
 
-stacked_crates = [[i for i in l if i != ' '] for l in stacked_crates]
 second_stack = copy.deepcopy(stacked_crates)
-
-nb_movements = [[int(s) for s in re.findall(r'\d+', l)] for l in movements]
 
 for m in nb_movements: 
   nb_crates, from_stack, to_stack = m
