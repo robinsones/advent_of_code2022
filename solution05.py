@@ -26,6 +26,8 @@ for m in nb_movements:
 last_crates = [i[-1] for i in stacked_crates]
 ''.join(last_crates)
 
+## Problem 2
+
 for m in nb_movements: 
   nb_crates, from_stack, to_stack = m
   to_move = second_stack[from_stack-1][-nb_crates:]
