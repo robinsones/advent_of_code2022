@@ -12,7 +12,6 @@ with open('input07.txt') as f:
   command_inputs = [l.strip() for l in f]
 
 list_commands_index = [i for i, l in enumerate(command_inputs) if l == "$ ls"]
-cd_commands = [l.removeprefix("$ cd ") for l in command_inputs if l.startswith("$ cd")]
 
 dir_contents = {}
 dir_paths = [[] for i in range(len(list_commands_index))]
