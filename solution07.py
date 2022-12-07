@@ -29,7 +29,7 @@ for i, v in enumerate(list_commands_index):
       if p != "..":
         dir_paths[i].append(p)
       elif p == "..":
-        dir_paths[i].pop()
+        dir_paths[i] = dir_paths[i].pop()
     dir_name = '/'.join(dir_paths[i])
     if 0 < i < len(list_commands_index) - 1:
       next_index = list_commands_index[i+1]
