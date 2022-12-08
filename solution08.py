@@ -10,14 +10,12 @@ for i, l in enumerate(lines):
   for ind, v in enumerate(l): 
     if ind not in (0, len(l) - 1) and i not in (0, len(l) - 1):
       col = [x[ind] for x in lines]
-      if any((v > max(l[ind+1:]), v > max(l[:ind]), v > max(col[i+1:]), v > max(col[:i]))):
+      if any([v > max(t) for t in [l[ind+1:], l[:ind], col[i+1:], col[:i]]]):
         running_count += 1
 
 running_count + outer_edge_size
 
 ## Problem 2
-
-# how many trees in each direction until i hit an equal or greater height?
 
 def get_view(li, v):
   for x, y in enumerate(li):
@@ -35,3 +33,4 @@ for i, l in enumerate(lines):
       if product > max_product:
         max_product = product
 
+max_product
