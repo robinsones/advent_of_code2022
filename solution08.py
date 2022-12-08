@@ -1,3 +1,5 @@
+import numpy as np 
+
 with open('input08.txt') as f: 
   lines = [[int(i) for a,i in enumerate(l.strip())] for l in f]
 
@@ -28,12 +30,8 @@ for i, l in enumerate(lines):
   for ind, v in enumerate(l): 
     if ind not in (0, len(l) - 1) and i not in (0, len(l) - 1):
       col = [x[ind] for x in lines]
-      s1 = get_view(l[ind+1:], v)
-      s2 = get_view(l[:ind][::-1], v)
-      s3 = get_view(col[i+1:], v)
-      s4 = get_view(col[:i][::-1], v)
-      product = s1*s2*s3*s4
+      to_check = [l[ind+1:], l[:ind][::-1], col[i+1:], col[:i][::-1]]
+      product = np.prod([get_view(y, v) for y in to_check])
       if product > max_product:
         max_product = product
-        lens = [s1, s2, s3, s4, ind, i]
 
