@@ -57,7 +57,7 @@ cur_tail_pos = [0, 0]
 spots_visited = []
 
 for tm in list_lines:
-  for i in range(tm[1]):
+  for _ in range(tm[1]):
     move_rope(tm, cur_head_pos)
     move_tail(cur_head_pos, cur_tail_pos, tm)
     cpt = copy.deepcopy(cur_tail_pos)
@@ -72,7 +72,7 @@ tenth_spots_visited = []
 all_positions = [[0, 0] for i in range(10)]
 
 for tm in list_lines:
-  for i in range(tm[1]):
+  for _ in range(tm[1]):
     # first move the head as instructed
     move_rope(tm, all_positions[0])
     # then move the rest of the rope
