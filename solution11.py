@@ -1,5 +1,6 @@
 import math
 import re
+import copy
 
 # operation and tests are always the same, it's items that change
 all_items = []
@@ -31,6 +32,7 @@ def monkey_worry(ops, initial_worry):
     return initial_worry + int(re.findall(r'\d+', ops)[0])
 
 inspections = [0 for i in range(len(all_tests))]
+all_items_og = copy.deepcopy(all_items)
 
 for _ in range(20):
   for mk_nb in range(len(all_tests)):
@@ -48,3 +50,39 @@ print(inspections[-1] * inspections[-2])
 
 ## Part 2
 
+def monkey_worry_big(ops, initial_rem, tests): 
+  if 'old' in ops:
+    return [((te + ir)*ir) % te for ir, te in zip(initial_rem, tests)]
+  else:
+    nb = int(re.findall(r'\d+', ops)[0])
+    (17 + 5)*19 % 17
+    if '*' in ops:
+      return [((te + ir)*nb) % te for ir, te in zip(initial_rem, tests)]
+    elif '+' in ops:
+      return [(ir + nb) % te for ir, te in zip(initial_rem, tests)]
+
+inspections_new = [0 for i in range(len(all_tests))]
+new_all_items = []
+for mks in all_items_og:
+  mk_div = []
+  for it in mks:
+    mk_div.append([it % ti for ti in all_tests])
+  new_all_items.append(mk_div)
+  
+for _ in range(10000):
+  for inx in range(len(all_tests)):
+    # inx goes from 0 to 9, is monkey
+    for rem_li in new_all_items[inx]: 
+      inspections_new[inx] += 1
+      # get back new list of remainders 
+      new_rem = monkey_worry_big(all_ops[inx], rem_li, all_tests)
+      if new_rem[inx] == 0:
+        new_all_items[all_tests_true[inx]].append(new_rem)
+      else: 
+        new_all_items[all_tests_false[inx]].append(new_rem)
+    new_all_items[inx] = []
+
+inspections_new
+
+inspections_new.sort()
+print(inspections_new[-1] * inspections_new[-2])
