@@ -55,7 +55,6 @@ def monkey_worry_big(ops, initial_rem, tests):
     return [((te + ir)*ir) % te for ir, te in zip(initial_rem, tests)]
   else:
     nb = int(re.findall(r'\d+', ops)[0])
-    (17 + 5)*19 % 17
     if '*' in ops:
       return [((te + ir)*nb) % te for ir, te in zip(initial_rem, tests)]
     elif '+' in ops:
