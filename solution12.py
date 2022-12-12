@@ -1,6 +1,6 @@
 import numpy as np
 import string
-from scipy.sparse.csgraph import dijkstra, shortest_path
+from scipy.sparse.csgraph import shortest_path
 
 with open('input12.txt') as f:
   lines = [l.strip() for l in f]
@@ -26,35 +26,73 @@ for li in lines:
 
 gr = np.array(tran_line)
 
-def update_if_close(x, y, row_ind, col_ind):
+def safe_check_up(x, y, row_ind, col_ind):
   nb_cols = x.shape[1]
   ent = x[row_ind, col_ind]
   muti = row_ind*nb_cols
   try:
-    if ent - x[row_ind, col_ind+1] <= 1:
-      y[col_ind + muti, col_ind+1 + muti] = 1
-  except:
-    pass
-  try:
-    if ent - x[row_ind+1, col_ind] <= 1:
-      y[col_ind + muti, col_ind + (row_ind+1)*nb_cols] = 1
-  except:
-    pass
-  try:
-    if ent - x[row_ind-1, col_ind] <= 1:
+    if x[row_ind-1, col_ind] - ent <= 1:
       y[col_ind + muti, col_ind + (row_ind-1)*nb_cols] = 1
   except:
     pass
+  
+def safe_check_down(x, y, row_ind, col_ind):
+  nb_cols = x.shape[1]
+  ent = x[row_ind, col_ind]
+  muti = row_ind*nb_cols
   try:
-    if ent - x[row_ind, col_ind-1] <= 1:
-      y[col_ind + muti, col_ind-1 + muti] = 1
+    if x[row_ind+1, col_ind] - ent <= 1:
+      y[col_ind + muti, col_ind + (row_ind+1)*nb_cols] = 1
   except:
     pass
   
+def safe_check_right(x, y, row_ind, col_ind):
+  nb_cols = x.shape[1]
+  ent = x[row_ind, col_ind]
+  muti = row_ind*nb_cols
+  try:
+    if x[row_ind, col_ind+1] - ent <= 1:
+      y[col_ind + muti, col_ind+1 + muti] = 1
+  except:
+    pass
+
+def safe_check_left(x, y, row_ind, col_ind):
+  nb_cols = x.shape[1]
+  ent = x[row_ind, col_ind]
+  muti = row_ind*nb_cols
+  try:
+    if x[row_ind, col_ind-1] - ent<= 1:
+      y[col_ind + muti, col_ind-1 + muti] = 1
+  except:
+    pass
+
+def update_if_close(x, y, row_ind, col_ind):
+  if row_ind == 0:
+    safe_check_right(x, y, row_ind, col_ind)
+    safe_check_left(x, y, row_ind, col_ind)
+    safe_check_down(x, y, row_ind, col_ind)
+  elif col_ind == x.shape[1] - 1:
+    safe_check_left(x, y, row_ind, col_ind)
+    safe_check_up(x, y, row_ind, col_ind)
+    safe_check_down(x, y, row_ind, col_ind)
+  elif col_ind == 0:
+    safe_check_right(x, y, row_ind, col_ind)
+    safe_check_up(x, y, row_ind, col_ind)
+    safe_check_down(x, y, row_ind, col_ind)
+  elif row_ind == x.shape[0] - 1:
+    safe_check_right(x, y, row_ind, col_ind)
+    safe_check_up(x, y, row_ind, col_ind)
+    safe_check_down(x, y, row_ind, col_ind)
+  else:
+    safe_check_right(x, y, row_ind, col_ind)
+    safe_check_up(x, y, row_ind, col_ind)
+    safe_check_down(x, y, row_ind, col_ind)
+    safe_check_left(x, y, row_ind, col_ind)
+    
 def create_adj_mat(x):
   y = np.ones([x.size,x.size]) * np.inf 
   for ri, row in enumerate(x):
-    for ci, entry in enumerate(row):
+    for ci, _ in enumerate(row):
       update_if_close(x, y, ri, ci)
   return y
 
@@ -65,5 +103,4 @@ di = shortest_path(zb)
 ending_di_ind = (gr.shape[1])*ending_ind[0] + ending_ind[1]
 starting_di_ind = (gr.shape[1])*starting_ind[0] + starting_ind[1]
 
-# 413 is too low
-di[ending_di_ind, starting_di_ind] 
+di[starting_di_ind, ending_di_ind] 
