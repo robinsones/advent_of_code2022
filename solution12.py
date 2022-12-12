@@ -106,9 +106,7 @@ starting_di_ind = (gr.shape[1])*starting_ind[0] + starting_ind[1]
 di[starting_di_ind, ending_di_ind] 
 
 ## Part 2
-# shortest path from any square a to path marked E
 
-# all indices starting with a
 all_a = []
 for ind, va in enumerate(np.ravel(gr)):
   if va == 0:
