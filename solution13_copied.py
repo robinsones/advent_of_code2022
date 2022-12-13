@@ -14,8 +14,8 @@ def compair(left, right):
     case list(), list():
       for l, r in zip(left, right):
         # := returns the value
-        # is true if compair(l, r) is not 0
-        # we continue checking differences if not 0 
+        # if compair(l, r) is 0 is false 
+        # we continue checking differences if 0, otherwise return 
         if diff := compair(l, r):
           return diff
       return len(left) - len(right)
