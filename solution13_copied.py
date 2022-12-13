@@ -25,9 +25,7 @@ def compair(left, right):
       return compair(left, [right])
 
 nb_in_ro = 0
-run_i = 0
 for i, j in enumerate(range(0, len(lines), 2)):
-  run_i += i+1
   if compair(lines[j], lines[j+1]) < 0:
     nb_in_ro += i+1
 
