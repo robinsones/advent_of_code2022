@@ -40,9 +40,7 @@ for path_set in lines:
       draw_line(path_set[len_p], path_set[len_p+1], og_graph)
 
 # it can't fall off map 
-def sand_falling(gr, max_depth, cur_pos = None):
-  if cur_pos is None:
-    cur_pos = (500, 0)
+def sand_falling(gr, max_depth):
   if cur_pos[1] == max_depth:
     return True, cur_pos
   elif gr[(cur_pos[0], cur_pos[1]+1)] == '':
@@ -79,8 +77,6 @@ for path_set in lines:
     if len_p <= len(path_set)-2:
       draw_line(path_set[len_p], path_set[len_p+1], p2_graph)
 
-draw_line((min_x - 10000, floor), (max_x + 10000, floor), p2_graph)
-
 def sand_fallingp2(gr, max_depth, cur_pos):
   if cur_pos[1] == max_depth-1:
     gr[(cur_pos[0], cur_pos[1])] = "sand"
@@ -98,10 +94,10 @@ def sand_fallingp2(gr, max_depth, cur_pos):
     gr[(cur_pos[0], cur_pos[1])] = "sand"
     return True, cur_pos
 
-def one_grainp2(gr, floor):
+def one_grainp2(og_graph, max_depth):
   cp = (500, 0)
   while True:
-    bool_val, cp = sand_fallingp2(gr, floor, cp)
+    bool_val, cp = sand_fallingp2(og_graph, max_depth, cp)
     if bool_val:
       break
 
