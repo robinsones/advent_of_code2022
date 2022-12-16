@@ -26,15 +26,9 @@ def find_path_to_end(p_dict, cur_node, time_remaining, running_sum, cur_m, valve
       return find_path_to_end(p_dict, valve_to_open, time_remaining, running_sum, cur_m, valves_running)
   else:
     time_remaining -= 1
-    for movement in ['open', 'move']:
-      if movement == 'open':
-        running_sum += frv * (time_remaining)
-        valves_running.append(cur_node)
-        passed_vr = copy.deepcopy(valves_running)
-        return find_path_to_end(p_dict, cur_node, time_remaining, running_sum, cur_m, passed_vr)
-      else:
-        for valve_to_open in next_nodes:
-          return find_path_to_end(p_dict, valve_to_open, time_remaining, running_sum, cur_m, valves_running)
+    rs = frv * time_remaining + running_sum
+    for valve_to_open in next_nodes:
+      return max(find_path_to_end(p_dict, cur_node, time_remaining, rs, cur_m, valves_running + [cur_node]), find_path_to_end(p_dict, valve_to_open, time_remaining, running_sum, cur_m, valves_running))
 
 # this is right
 find_path_to_end(p_dict = valve_and_paths, cur_node = 'DD', time_remaining = 3, running_sum = 0, cur_m = 0, valves_running = [])
