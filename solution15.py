@@ -9,7 +9,7 @@ lines = []
 
 with open('input15.txt') as f:
   for l in f:
-    xs, ys, xb, yb = [int(s) for s in re.findall(r'\d+', l)]
+    xs, ys, xb, yb = [int(s) for s in re.findall(r'-?\d+', l)]
     sensor_loc = (xs, ys)
     beacon_loc = (xb, yb)
     md = manhattan(sensor_loc, beacon_loc)
@@ -36,10 +36,33 @@ for c in candidates:
 len(no_beacons_set ^ beacons_on_row_y)
 
 ## Part 2
-# distress between 0 and 4000000
-# multiply x by 4000000 and add y
+grid_min = 0
+grid_max = 4000000
+y_ranges = [[] for _ in range(grid_max+1)]
 
-# there is only one non possible one in entire grid
-# hmm can we go like row by row?
+# borrowed from leetcode
+def merge(intervals):
+    intervals.sort(key =lambda x: x[0])
+    merged =[]
+    for i in intervals:
+        if not merged or merged[-1][-1] + 1 < i[0]:
+            merged.append(i)
+        else:
+            merged[-1][-1] = max(merged[-1][-1], i[-1])
+    return merged
 
+for l in lines:
+  sensor_x = l[0][0]
+  max_d = l[2]
+  sensor_y = l[0][1]
+  for cur_y in range(max(grid_min, sensor_y - max_d), min(grid_max+1, sensor_y + max_d + 1)):
+    y_diff = abs(cur_y - sensor_y)
+    x_max_diff = max_d - y_diff
+    nb_min = sensor_x - x_max_diff
+    nb_max = sensor_x + x_max_diff
+    y_ranges[cur_y].append([max(nb_min, grid_min), min(nb_max, grid_max)])
 
+res = [merge(yr) for yr in y_ranges]
+y_res = [i for i, r in enumerate(res) if r != [[grid_min, grid_max]]]
+
+(res[2908372][0][1]+1)*4000000 + y_res[0]
